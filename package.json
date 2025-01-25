@@ -1,7 +1,26 @@
 {
   "name": "demucs-web",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
+  },
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "devDependencies": {
+    "@eslint/compat": "^1.2.5",
+    "@eslint/js": "^9.19.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "eslint": "^9.19.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0"
+  }
 }

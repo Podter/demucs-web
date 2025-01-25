@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "module": "index.ts",
+  "private": true,
   "type": "module",
   "devDependencies": {
     "@types/bun": "^1.2.0",
