@@ -3,8 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "bun run-all dev",
+    "build": "bun run-all build",
+    "preview": "bun run-all preview",
+    "typecheck": "bun run-all typecheck",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "run-all": "bun --filter \"*\""
   },
   "workspaces": [
     "apps/*"
