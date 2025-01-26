@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "bun run-all dev",
     "build": "rm -rf dist && bun run-all build",
-    "preview": "bun run dist/main.js",
+    "preview": "NODE_ENV=production bun run dist/main.js",
     "typecheck": "bun run-all typecheck",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
