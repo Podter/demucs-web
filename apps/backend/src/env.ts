@@ -7,6 +7,10 @@ export const env = createEnv({
     PORT: z.string().transform(Number).default("3000"),
     STATIC_PATH: z.string().default("static"),
 
+    SECRET: z.string(),
+
+    DEMUCS_API: z.string(),
+
     S3_ACCESS_KEY_ID: z.string(),
     S3_SECRET_ACCESS_KEY: z.string(),
     S3_REGION: z.string(),

@@ -5,10 +5,12 @@ import { Elysia } from "elysia";
 
 import { env } from "./env";
 import { api } from "./routes/api";
+import { file } from "./routes/file";
 
 const app = new Elysia();
 
 app.use(api);
+app.use(file);
 
 if (fs.existsSync(env.STATIC_PATH)) {
   app
