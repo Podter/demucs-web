@@ -1,12 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import "./index.css";
+const rootElement = document.getElementById("root");
 
-import App from "./App.tsx";
-
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <h1>Hello, world!</h1>
+    </StrictMode>,
+  );
+} else {
+  console.error("No root element found");
+}
