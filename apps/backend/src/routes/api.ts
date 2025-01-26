@@ -30,12 +30,13 @@ export const api = new Elysia({ prefix: "/api" })
       const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 7 days
 
       const extension = body.file.name.split(".").pop();
-      await s3.file(`${id}/original.${extension}`).write(body.file);
+      const path = `${id}/original.${extension}`;
+      await s3.file(path).write(body.file);
 
       // TODO: add separate logic
       await db.insert(Separation).values({
         id,
-        name: body.file.name,
+        name: body.file.name.split(".").shift() ?? "",
         status: "processing",
         twoStems: body.twoStems,
         expiresAt,
