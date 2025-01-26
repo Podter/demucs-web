@@ -9,17 +9,18 @@ export function createClientHash(string: string) {
   const hash = new Bun.CryptoHasher("sha256", `${env.SECRET}:client`)
     .update(string)
     .digest("hex");
-  return `${hash}:client`;
+  return Buffer.from(`${hash}:client`).toString("base64url");
 }
 
 export function createServerHash(string: string) {
   const hash = new Bun.CryptoHasher("sha256", `${env.SECRET}:server`)
     .update(string)
     .digest("hex");
-  return `${hash}:server`;
+  return Buffer.from(`${hash}:server`).toString("base64url");
 }
 
 type HashType = "client" | "server";
 export function getHashType(hash: string): HashType {
-  return hash.split(":")[1] as HashType;
+  const decoded = Buffer.from(hash, "base64url").toString();
+  return decoded.split(":")[1] as HashType;
 }
