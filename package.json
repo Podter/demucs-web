@@ -9,7 +9,10 @@
     "typecheck": "bun run-all typecheck",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "run-all": "bun --filter \"*\""
+    "run-all": "bun --filter \"*\"",
+    "docker:up": "docker compose -f compose-dev.yml up -d",
+    "docker:down": "docker compose -f compose-dev.yml down",
+    "docker:rm": "docker compose -f compose-dev.yml down -v --remove-orphans"
   },
   "workspaces": [
     "apps/*"
