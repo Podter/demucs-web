@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+import fs from "node:fs";
 import path from "node:path";
 import { staticPlugin } from "@elysiajs/static";
 import { Elysia } from "elysia";
@@ -10,7 +10,7 @@ const app = new Elysia();
 
 app.use(api);
 
-if (await fs.exists(env.STATIC_PATH)) {
+if (fs.existsSync(env.STATIC_PATH)) {
   app
     .onError((ctx) => {
       if (ctx.code === "NOT_FOUND") {

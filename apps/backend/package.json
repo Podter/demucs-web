@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/main.ts",
-    "build": "NODE_ENV=production bun run typecheck && bun run scripts/build.ts",
-    "typecheck": "tsc --noEmit -p ."
+    "build": "NODE_ENV=production bun run typecheck && bun run compile",
+    "typecheck": "tsc --noEmit -p .",
+    "compile": "bun build --compile --bytecode --minify --sourcemap ./src/main.ts --outfile ./out/demucs-web"
   },
   "dependencies": {
     "@elysiajs/static": "^1.2.0",

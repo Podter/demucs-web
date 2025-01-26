@@ -13,10 +13,6 @@ export default defineConfig({
       },
     }),
   ],
-  build: {
-    outDir: "../../dist/static",
-    emptyOutDir: false,
-  },
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "./src"),
