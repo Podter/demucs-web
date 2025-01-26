@@ -9,12 +9,6 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   includeIgnoreFile(path.join(import.meta.dirname, ".gitignore")),
-  includeIgnoreFile(
-    path.join(import.meta.dirname, "apps", "frontend", ".gitignore"),
-  ),
-  includeIgnoreFile(
-    path.join(import.meta.dirname, "apps", "backend", ".gitignore"),
-  ),
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     plugins: {

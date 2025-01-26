@@ -4,11 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/main.ts",
-    "build": "NODE_ENV=production bun run typecheck && bun build --compile --bytecode --minify --sourcemap src/main.ts --outfile out/backend",
-    "preview": "NODE_ENV=production out/backend",
+    "build": "NODE_ENV=production bun run typecheck && bun run scripts/build.ts",
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
+    "@elysiajs/static": "^1.2.0",
     "elysia": "^1.2.10"
   },
   "devDependencies": {

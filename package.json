@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun run-all dev",
-    "build": "bun run-all build",
-    "preview": "bun run-all preview",
+    "build": "rm -rf dist && bun run-all build",
+    "preview": "bun run dist/main.js",
     "typecheck": "bun run-all typecheck",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
