@@ -2,7 +2,8 @@ import { Elysia, t } from "elysia";
 
 import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
-import { createClientHash, nanoid } from "~/lib/crypto";
+import { env } from "~/env";
+import { createClientHash, createServerHash, nanoid } from "~/lib/crypto";
 import { s3 } from "~/lib/s3";
 
 export const api = new Elysia({ prefix: "/api" })
@@ -30,10 +31,9 @@ export const api = new Elysia({ prefix: "/api" })
       const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 7 days
 
       const extension = body.file.name.split(".").pop();
-      const path = `${id}/original.${extension}`;
-      await s3.file(path).write(body.file);
+      const filename = `original.${extension}`;
+      await s3.file(`${id}/${filename}`).write(body.file);
 
-      // TODO: add separate logic
       await db.insert(Separation).values({
         id,
         name: body.file.name.split(".").shift() ?? "",
@@ -41,6 +41,19 @@ export const api = new Elysia({ prefix: "/api" })
         twoStems: body.twoStems,
         expiresAt,
       });
+
+      fetch(`${env.DEMUCS_API}/predict`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          filename,
+          two_stems: body.twoStems,
+          hash: createServerHash(id),
+        }),
+      }).then(() => {});
 
       return {
         id,

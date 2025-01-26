@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 
-import { createClientHash, createServerHash } from "~/lib/crypto";
+import { createClientHash, createServerHash, getHashType } from "~/lib/crypto";
 import { s3 } from "~/lib/s3";
 
 export const file = new Elysia({ prefix: "/file" })
@@ -13,10 +13,18 @@ export const file = new Elysia({ prefix: "/file" })
   .get(
     "/:id/:filename",
     ({ params, query, error }) => {
-      const hash = createClientHash(params.id);
+      const hashType = getHashType(query.hash);
+      const hash =
+        hashType === "server"
+          ? createServerHash(params.id)
+          : hashType === "client"
+            ? createClientHash(params.id)
+            : "";
+
       if (hash !== query.hash) {
         return error(403);
       }
+
       return s3.file(`${params.id}/${params.filename}`);
     },
     {
@@ -29,19 +37,21 @@ export const file = new Elysia({ prefix: "/file" })
     "/:id/:filename",
     async ({ params, headers, body, error }) => {
       const hash = createServerHash(params.id);
-      const serverHash = headers.Authorization.split(" ")[1];
+      const serverHash = headers.authorization.split(" ")[1];
       if (hash !== serverHash) {
         return error(403);
       }
 
-      await s3.file(`${params.id}/${params.filename}`).write(body);
+      await s3.file(`${params.id}/${params.filename}`).write(body.file);
 
       return new Response(null, { status: 204 });
     },
     {
-      body: t.File(),
+      body: t.Object({
+        file: t.File(),
+      }),
       headers: t.Object({
-        Authorization: t.String(),
+        authorization: t.String(),
       }),
     },
   );

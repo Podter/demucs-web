@@ -176,7 +176,8 @@ dist
 
 # python
 venv
-separated
+demucs/client.py
+tmp
 
 # app data
 data
