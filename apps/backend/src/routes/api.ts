@@ -33,6 +33,7 @@ export const api = new Elysia({ prefix: "/api" })
       // TODO: add separate logic
       await db.insert(Separation).values({
         id,
+        name: body.file.name,
         status: "processing",
         twoStems: body.twoStems,
         expiresAt,
