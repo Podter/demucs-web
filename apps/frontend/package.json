@@ -8,6 +8,7 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
+    "@elysiajs/eden": "^1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -16,6 +17,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
+    "backend": "workspace:*",
     "typescript": "^5.7.3",
     "vite": "^6.0.11"
   }
