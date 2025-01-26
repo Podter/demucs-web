@@ -3,6 +3,7 @@ from litserve import LitAPI, LitServer
 from typing import TypedDict
 import requests
 import os
+import shutil
 
 # MODEL = "htdemucs_ft"
 MODEL = "htdemucs"
@@ -114,6 +115,8 @@ class DemucsAPI(LitAPI):
                     files={"file": file},
                     headers={"authorization": f"Bearer {hash}"},
                 )
+
+        shutil.rmtree(folder_path)
 
         return {"success": True}
 
