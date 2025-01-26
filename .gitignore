@@ -177,3 +177,6 @@ dist
 # python
 venv
 separated
+
+# app data
+data

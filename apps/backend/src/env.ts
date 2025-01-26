@@ -8,6 +8,7 @@ export const env = createEnv({
     STATIC_PATH: z.string().default("static"),
 
     SECRET: z.string(),
+    DATA_DIR: z.string().default("data"),
 
     DEMUCS_API: z.string(),
 
