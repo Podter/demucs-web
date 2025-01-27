@@ -5,18 +5,9 @@ import { client } from "../lib/api";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  loader: () =>
-    client.api.hello.get({
-      query: {
-        name: "world",
-      },
-    }),
-  pendingComponent: () => <main>Loading...</main>,
 });
 
 function Index() {
-  const { data } = Route.useLoaderData();
-
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -33,7 +24,7 @@ function Index() {
 
   return (
     <main>
-      <h1>{data?.message}</h1>
+      <h1>Hello, world!</h1>
       <form onSubmit={handleSubmit}>
         <input type="file" required name="file" />
         <button type="submit">Submit</button>

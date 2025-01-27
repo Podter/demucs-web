@@ -9,19 +9,6 @@ import { s3 } from "~/lib/s3";
 
 export const api = new Elysia({ prefix: "/api" })
   .get(
-    "/hello",
-    ({ query }) => {
-      return {
-        message: `Hello, ${query.name}!`,
-      };
-    },
-    {
-      query: t.Object({
-        name: t.String(),
-      }),
-    },
-  )
-  .get(
     "/status/:id",
     async ({ params, headers, error }) => {
       const hash = createClientHash(params.id);
