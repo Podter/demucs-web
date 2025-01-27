@@ -58,67 +58,90 @@ class DemucsAPI(LitAPI):
         }
 
     def predict(self, input: DemucsInput) -> DemucsOutput:
-        args: list[str] = [
-            # File path
-            input["file_path"],
-            # Model name
-            "--name",
-            MODEL,
-            # Device
-            "--device",
-            self.device,
-            # MP3
-            "--mp3",
-            # Bitrate
-            "--mp3-bitrate",
-            str(MP3_BITRATE),
-            # Quality
-            "--mp3-preset",
-            str(MP3_QUALITY),
-            # Output
-            "--out",
-            input["folder_path"],
-            # Filename format
-            "--filename",
-            "{stem}.{ext}",
-        ]
+        id: str = input["id"]
+        folder_path: str = input["folder_path"]
+        file_path: str = input["file_path"]
+        two_stems: bool = input["two_stems"]
+        hash: str = input["hash"]
 
-        # Two stems
-        if input["two_stems"]:
-            args.append("--two-stems")
-            args.append("vocals")
+        success: bool = False
 
-        # Run
-        separate(args)
+        try:
+            args: list[str] = [
+                # File path
+                file_path,
+                # Model name
+                "--name",
+                MODEL,
+                # Device
+                "--device",
+                self.device,
+                # MP3
+                "--mp3",
+                # Bitrate
+                "--mp3-bitrate",
+                str(MP3_BITRATE),
+                # Quality
+                "--mp3-preset",
+                str(MP3_QUALITY),
+                # Output
+                "--out",
+                folder_path,
+                # Filename format
+                "--filename",
+                "{stem}.{ext}",
+            ]
+
+            # Two stems
+            if two_stems:
+                args.append("--two-stems")
+                args.append("vocals")
+
+            # Run
+            separate(args)
+            success = True
+        except Exception as e:
+            print(e)
+            success = False
 
         return {
-            "success": True,
-            "id": input["id"],
-            "folder_path": input["folder_path"],
-            "hash": input["hash"],
+            "success": success,
+            "id": id,
+            "folder_path": folder_path,
+            "hash": hash,
         }
 
     def encode_response(self, output: DemucsOutput) -> dict:
+        success: bool = output["success"]
         id: str = output["id"]
         folder_path: str = output["folder_path"]
         hash: str = output["hash"]
 
-        output_folder: str = f"{folder_path}/{MODEL}"
+        try:
+            output_folder: str = f"{folder_path}/{MODEL}"
+            files = os.listdir(output_folder)
+            for filename in files:
+                file_path = f"{output_folder}/{filename}"
+                with open(file_path, "rb") as file:
+                    url = f"{API_URL}/file/{id}/{filename}"
+                    requests.post(
+                        url,
+                        files={"file": file},
+                        headers={"authorization": f"Bearer {hash}"},
+                    )
+            shutil.rmtree(folder_path)
+            success = True
+        except Exception as e:
+            print(e)
+            success = False
 
-        files = os.listdir(output_folder)
-        for filename in files:
-            file_path = f"{output_folder}/{filename}"
-            with open(file_path, "rb") as file:
-                url = f"{API_URL}/file/{id}/{filename}"
-                requests.post(
-                    url,
-                    files={"file": file},
-                    headers={"authorization": f"Bearer {hash}"},
-                )
+        requests.post(
+            f"{API_URL}/api/complete/{id}",
+            json={"success": success},
+            headers={"authorization": f"Bearer {hash}"},
+        )
 
-        shutil.rmtree(folder_path)
-
-        return {"success": True}
+        return {"id": id, "success": success}
 
 
 if __name__ == "__main__":
