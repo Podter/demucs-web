@@ -12,7 +12,7 @@ export const api = new Elysia({ prefix: "/api" })
     "/status/:id",
     async ({ params, headers, error }) => {
       const hash = createClientHash(params.id);
-      const clientHash = headers.Authorization.split(" ")[1];
+      const clientHash = headers.authorization.split(" ")[1];
       if (hash !== clientHash) {
         return error(403);
       }
@@ -32,7 +32,7 @@ export const api = new Elysia({ prefix: "/api" })
         id: t.String(),
       }),
       headers: t.Object({
-        Authorization: t.String(),
+        authorization: t.String(),
       }),
     },
   )
@@ -69,7 +69,9 @@ export const api = new Elysia({ prefix: "/api" })
           two_stems: body.twoStems,
           hash: createServerHash(id),
         }),
-      }).then(() => {});
+      })
+        .then(() => {})
+        .catch(console.error);
 
       return {
         id,

@@ -1,6 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
+import Status from "~/components/status";
 import { client } from "../lib/api";
 
 export const Route = createFileRoute("/")({
@@ -8,6 +9,11 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [data, setData] = useState<
+    | Awaited<ReturnType<(typeof client)["api"]["separate"]["post"]>>["data"]
+    | null
+  >(null);
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -17,7 +23,9 @@ function Index() {
         file,
         twoStems: false,
       });
-      console.log(res);
+      if (res.data) {
+        setData(res.data);
+      }
     },
     [],
   );
@@ -29,6 +37,12 @@ function Index() {
         <input type="file" required name="file" />
         <button type="submit">Submit</button>
       </form>
+      {data && (
+        <>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+          <Status data={data} />
+        </>
+      )}
     </main>
   );
 }
