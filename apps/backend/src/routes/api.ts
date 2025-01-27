@@ -21,6 +21,34 @@ export const api = new Elysia({ prefix: "/api" })
       }),
     },
   )
+  .get(
+    "/status/:id",
+    async ({ params, headers, error }) => {
+      const hash = createClientHash(params.id);
+      const clientHash = headers.Authorization.split(" ")[1];
+      if (hash !== clientHash) {
+        return error(403);
+      }
+
+      const results = await db
+        .select()
+        .from(Separation)
+        .where(eq(Separation.id, params.id));
+      if (results.length <= 0) {
+        return error(404);
+      }
+
+      return results[0];
+    },
+    {
+      params: t.Object({
+        id: t.String(),
+      }),
+      headers: t.Object({
+        Authorization: t.String(),
+      }),
+    },
+  )
   .post(
     "/separate",
     async ({ body, error }) => {
