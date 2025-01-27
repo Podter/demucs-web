@@ -44,8 +44,10 @@ class DemucsAPI(LitAPI):
         file_path: str = f"{folder_path}/{filename}"
         os.makedirs(folder_path, exist_ok=True)
 
-        url: str = f"{API_URL}/file/{id}/{filename}?hash={hash}"
-        response = requests.get(url)
+        response = requests.get(
+            f"{API_URL}/file/{id}/{filename}",
+            headers={"Authorization": f"Bearer {hash}"},
+        )
         with open(file_path, "wb") as file:
             file.write(response.content)
 
@@ -123,11 +125,10 @@ class DemucsAPI(LitAPI):
             for filename in files:
                 file_path = f"{output_folder}/{filename}"
                 with open(file_path, "rb") as file:
-                    url = f"{API_URL}/file/{id}/{filename}"
                     requests.post(
-                        url,
+                        f"{API_URL}/file/{id}/{filename}",
                         files={"file": file},
-                        headers={"authorization": f"Bearer {hash}"},
+                        headers={"Authorization": f"Bearer {hash}"},
                     )
             shutil.rmtree(folder_path)
             success = True
@@ -138,7 +139,7 @@ class DemucsAPI(LitAPI):
         requests.post(
             f"{API_URL}/api/complete/{id}",
             json={"success": success},
-            headers={"authorization": f"Bearer {hash}"},
+            headers={"Authorization": f"Bearer {hash}"},
         )
 
         return {"id": id, "success": success}

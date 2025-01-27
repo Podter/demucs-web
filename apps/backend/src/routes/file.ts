@@ -12,8 +12,13 @@ export const file = new Elysia({ prefix: "/file" })
   })
   .get(
     "/:id/:filename",
-    async ({ params, query, error, set, headers }) => {
-      const hashType = getHashType(query.hash);
+    ({ params, query, error, headers }) => {
+      const hashString = query.hash ?? headers.authorization?.split(" ")[1];
+      if (!hashString) {
+        return error(403);
+      }
+
+      const hashType = getHashType(hashString);
       const hash =
         hashType === "server"
           ? createServerHash(params.id)
@@ -21,38 +26,37 @@ export const file = new Elysia({ prefix: "/file" })
             ? createClientHash(params.id)
             : "";
 
-      if (hash !== query.hash) {
+      if (hash !== hashString) {
         return error(403);
       }
 
       const file = s3.file(`${params.id}/${params.filename}`);
 
-      set.headers["Content-Type"] = file.type;
-      set.headers["Content-Disposition"] =
-        `inline; filename="${params.filename}"`;
+      const resHeaders = new Headers();
+      resHeaders.set("Content-Type", file.type);
+      resHeaders.set("Content-Length", file.size.toString());
+      resHeaders.set(
+        "Content-Disposition",
+        `attachment; filename="${params.filename}"`,
+      );
 
-      const range = headers.Range;
-      if (!range) {
-        set.headers["Content-Length"] = file.size.toString();
-        return await file.arrayBuffer();
-      }
-
-      const start = Number(range.replace(/\D/g, ""));
-      // transfer 512KB at a time
-      const end = Math.min(start + 524288, file.size - 1);
-
-      set.headers["Content-Range"] = `bytes ${start}-${end}/${file.size}`;
-      set.headers["Content-Length"] = `${end - start + 1}`;
-
-      return await file.slice(start, end).arrayBuffer();
+      return new Response(file.stream(), { headers: resHeaders });
     },
     {
-      query: t.Object({
-        hash: t.String(),
-      }),
-      headers: t.Object({
-        Range: t.Optional(t.String()),
-      }),
+      query: t.Optional(
+        t.Partial(
+          t.Object({
+            hash: t.String(),
+          }),
+        ),
+      ),
+      headers: t.Optional(
+        t.Partial(
+          t.Object({
+            authorization: t.String(),
+          }),
+        ),
+      ),
     },
   )
   .post(
@@ -64,7 +68,9 @@ export const file = new Elysia({ prefix: "/file" })
         return error(403);
       }
 
-      await s3.file(`${params.id}/${params.filename}`).write(body.file);
+      await s3.file(`${params.id}/${params.filename}`).write(body.file, {
+        type: body.file.type,
+      });
 
       return new Response(null, { status: 204 });
     },
