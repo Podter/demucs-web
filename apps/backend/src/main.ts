@@ -5,6 +5,7 @@ import { Elysia } from "elysia";
 import logixlysia from "logixlysia";
 
 import { env } from "./env";
+import { cleanup } from "./lib/cleanup";
 import { api } from "./routes/api";
 import { file } from "./routes/file";
 
@@ -18,6 +19,7 @@ app.use(
     },
   }),
 );
+app.use(cleanup);
 
 app.use(api);
 app.use(file);
