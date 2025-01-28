@@ -10,13 +10,7 @@ export default {
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
   ],
-  // tailwindConfig: path.join(
-  //   import.meta.dirname,
-  //   "apps",
-  //   "frontend",
-  //   "tailwind.config.js",
-  // ),
-  // tailwindFunctions: ["cn", "cva"],
+  tailwindFunctions: ["cn", "cva"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)",

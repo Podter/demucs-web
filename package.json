@@ -3,26 +3,35 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun run-all dev",
-    "build": "bun run-all build",
-    "preview": "NODE_ENV=production STATIC_PATH=apps/frontend/dist apps/backend/out/demucs-web",
-    "typecheck": "bun run-all typecheck",
+    "dev": "bun run --watch src/main.ts",
+    "build": "NODE_ENV=production bun run typecheck && bun run compile",
+    "compile": "bun build --compile --bytecode --minify --sourcemap ./src/main.ts --outfile ./out/demucs-web",
+    "preview": "NODE_ENV=production out/demucs-web",
+    "typecheck": "tsc --noEmit -p .",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
-    "run-all": "bun --filter \"*\""
+    "format": "prettier --write ."
   },
-  "workspaces": [
-    "apps/*"
-  ],
+  "dependencies": {
+    "@elysiajs/cron": "^1.2.0",
+    "@elysiajs/static": "^1.2.0",
+    "@t3-oss/env-core": "^0.12.0",
+    "drizzle-kit": "^0.30.2",
+    "drizzle-orm": "^0.38.4",
+    "drizzle-typebox": "^0.3.0",
+    "elysia": "^1.2.10",
+    "logixlysia": "^4.0.0",
+    "nanoid": "^5.0.9",
+    "zod": "^3.24.1"
+  },
   "devDependencies": {
     "@eslint/compat": "^1.2.5",
     "@eslint/js": "^9.19.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@types/bun": "^1.2.1",
     "eslint": "^9.19.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
