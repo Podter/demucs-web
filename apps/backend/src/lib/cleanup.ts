@@ -3,7 +3,7 @@ import { eq, lt } from "drizzle-orm";
 
 import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
-import { s3 } from "./s3";
+import { getFilesPath } from "./file";
 
 export const cleanup = cron({
   name: "cleanup",
@@ -20,7 +20,7 @@ export const cleanup = cron({
       await Promise.all(
         expired.map(async ({ id }) => {
           await Promise.all([
-            s3.file(id).delete(),
+            Bun.file(getFilesPath(id)).delete(),
             db.delete(Separation).where(eq(Separation.id, id)),
           ]);
         }),

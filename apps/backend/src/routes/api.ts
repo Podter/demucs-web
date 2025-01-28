@@ -5,7 +5,7 @@ import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
 import { env } from "~/env";
 import { createClientHash, createServerHash, nanoid } from "~/lib/crypto";
-import { s3 } from "~/lib/s3";
+import { getFilePath } from "~/lib/file";
 import { createSelectSchema } from "~/lib/typebox";
 
 const SeparationSchema = createSelectSchema(Separation);
@@ -56,9 +56,7 @@ export const api = new Elysia({ prefix: "/api" })
 
       const extension = body.file.name.split(".").pop();
       const filename = `original.${extension}`;
-      await s3.file(`${id}/${filename}`).write(body.file, {
-        type: body.file.type,
-      });
+      await Bun.write(getFilePath(id, filename), body.file);
 
       await db.insert(Separation).values({
         id,

@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 
 import { createClientHash, createServerHash, getHashType } from "~/lib/crypto";
-import { s3 } from "~/lib/s3";
+import { getFilePath } from "~/lib/file";
 
 export const file = new Elysia({ prefix: "/file" })
   .guard({
@@ -30,17 +30,7 @@ export const file = new Elysia({ prefix: "/file" })
         return error(403);
       }
 
-      const file = s3.file(`${params.id}/${params.filename}`);
-
-      const resHeaders = new Headers();
-      resHeaders.set("Content-Type", file.type);
-      resHeaders.set("Content-Length", file.size.toString());
-      resHeaders.set(
-        "Content-Disposition",
-        `attachment; filename="${params.filename}"`,
-      );
-
-      return new Response(file.stream(), { headers: resHeaders });
+      return Bun.file(getFilePath(params.id, params.filename));
     },
     {
       query: t.Optional(
@@ -68,9 +58,7 @@ export const file = new Elysia({ prefix: "/file" })
         return error(403);
       }
 
-      await s3.file(`${params.id}/${params.filename}`).write(body.file, {
-        type: body.file.type,
-      });
+      await Bun.write(getFilePath(params.id, params.filename), body.file);
 
       return new Response(null, { status: 204 });
     },
