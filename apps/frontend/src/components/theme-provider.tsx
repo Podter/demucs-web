@@ -56,7 +56,6 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeProviderContext);
 
