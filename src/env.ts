@@ -10,7 +10,6 @@ export const env = createEnv({
 
     PORT: z.string().transform(Number).default("3000"),
     DATA_DIR: z.string().default("data"),
-    STATIC_PATH: z.string().default("static"),
   },
   runtimeEnv: Bun.env,
   emptyStringAsUndefined: true,
