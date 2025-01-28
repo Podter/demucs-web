@@ -8,12 +8,24 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 
+// Create Virtual Routes
+
+const IdLazyImport = createFileRoute('/$id')()
+
 // Create/Update Routes
+
+const IdLazyRoute = IdLazyImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/$id.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,6 +44,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/$id': {
+      id: '/$id'
+      path: '/$id'
+      fullPath: '/$id'
+      preLoaderRoute: typeof IdLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +58,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$id': typeof IdLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$id': typeof IdLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/$id': typeof IdLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/$id'
+  id: '__root__' | '/' | '/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  IdLazyRoute: typeof IdLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  IdLazyRoute: IdLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +101,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/$id"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/$id": {
+      "filePath": "$id.lazy.tsx"
     }
   }
 }
