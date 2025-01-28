@@ -6,9 +6,6 @@ import { Separation } from "~/db/schema";
 import { env } from "~/env";
 import { createClientHash, createServerHash, nanoid } from "~/lib/crypto";
 import { getFilePath } from "~/lib/file";
-import { createSelectSchema } from "~/lib/typebox";
-
-const SeparationSchema = createSelectSchema(Separation);
 
 export const api = new Elysia({ prefix: "/api" })
   .get(
@@ -17,7 +14,7 @@ export const api = new Elysia({ prefix: "/api" })
       const hash = createClientHash(params.id);
       const clientHash = headers.authorization.split(" ")[1];
       if (hash !== clientHash) {
-        return error(403, "Forbidden");
+        return error(403);
       }
 
       const results = await db
@@ -25,7 +22,7 @@ export const api = new Elysia({ prefix: "/api" })
         .from(Separation)
         .where(eq(Separation.id, params.id));
       if (results.length <= 0) {
-        return error(404, "Not Found");
+        return error(404);
       }
 
       return results[0];
@@ -37,18 +34,13 @@ export const api = new Elysia({ prefix: "/api" })
       headers: t.Object({
         authorization: t.String(),
       }),
-      response: {
-        200: SeparationSchema,
-        403: t.Literal("Forbidden"),
-        404: t.Literal("Not Found"),
-      },
     },
   )
   .post(
     "/separate",
     async ({ body, error }) => {
       if (body.file.type.split("/")[0] !== "audio") {
-        return error(400, "Bad Request");
+        return error(400);
       }
 
       const id = nanoid();
@@ -92,14 +84,6 @@ export const api = new Elysia({ prefix: "/api" })
         twoStems: t.BooleanString(),
         file: t.File(),
       }),
-      response: {
-        200: t.Object({
-          id: t.String(),
-          hash: t.String(),
-          expiresAt: t.Date(),
-        }),
-        400: t.Literal("Bad Request"),
-      },
     },
   )
   .post(
