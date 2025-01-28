@@ -6,9 +6,6 @@ import { Separation } from "~/db/schema";
 import { env } from "~/env";
 import { createClientHash, createServerHash, nanoid } from "~/lib/crypto";
 import { getFilePath } from "~/lib/file";
-import { createSelectSchema } from "~/lib/typebox";
-
-const SeparationSchema = createSelectSchema(Separation);
 
 export const api = new Elysia({ prefix: "/api" })
   .get(
@@ -38,7 +35,17 @@ export const api = new Elysia({ prefix: "/api" })
         authorization: t.String(),
       }),
       response: {
-        200: SeparationSchema,
+        200: t.Object({
+          id: t.String(),
+          name: t.String(),
+          status: t.Enum({
+            processing: "processing",
+            success: "success",
+            error: "error",
+          }),
+          twoStems: t.BooleanString(),
+          expiresAt: t.Date(),
+        }),
         403: t.Literal("Forbidden"),
         404: t.Literal("Not Found"),
       },
