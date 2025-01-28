@@ -9,9 +9,15 @@
   },
   "dependencies": {
     "@elysiajs/eden": "^1.2.0",
+    "@radix-ui/react-slot": "^1.1.1",
     "@tanstack/react-router": "^1.97.21",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.474.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.97.21",
@@ -19,8 +25,11 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
     "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
     "backend": "workspace:*",
+    "postcss": "^8.5.1",
+    "tailwindcss": "3",
     "typescript": "^5.7.3",
     "vite": "^6.0.11"
   }

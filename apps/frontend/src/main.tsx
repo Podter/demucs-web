@@ -1,3 +1,5 @@
+import "./styles.css";
+
 import { StrictMode } from "react";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
