@@ -8,24 +8,19 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as IdRouteImport } from './routes/$id/route'
 import { Route as IndexImport } from './routes/index'
-
-// Create Virtual Routes
-
-const IdLazyImport = createFileRoute('/$id')()
 
 // Create/Update Routes
 
-const IdLazyRoute = IdLazyImport.update({
+const IdRouteRoute = IdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/$id.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/$id/route.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -48,7 +43,7 @@ declare module '@tanstack/react-router' {
       id: '/$id'
       path: '/$id'
       fullPath: '/$id'
-      preLoaderRoute: typeof IdLazyImport
+      preLoaderRoute: typeof IdRouteImport
       parentRoute: typeof rootRoute
     }
   }
@@ -58,18 +53,18 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$id': typeof IdLazyRoute
+  '/$id': typeof IdRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$id': typeof IdLazyRoute
+  '/$id': typeof IdRouteRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/$id': typeof IdLazyRoute
+  '/$id': typeof IdRouteRoute
 }
 
 export interface FileRouteTypes {
@@ -83,12 +78,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  IdLazyRoute: typeof IdLazyRoute
+  IdRouteRoute: typeof IdRouteRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  IdLazyRoute: IdLazyRoute,
+  IdRouteRoute: IdRouteRoute,
 }
 
 export const routeTree = rootRoute
@@ -109,7 +104,7 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/$id": {
-      "filePath": "$id.lazy.tsx"
+      "filePath": "$id/route.ts"
     }
   }
 }

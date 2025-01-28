@@ -7,17 +7,22 @@ import ChevronRight from "~/components/icons/chevron-right";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
-import { useSeparations } from "~/hooks/use-separations";
 import { client } from "~/lib/api";
+import { addSeparation, getSeparations } from "~/lib/store";
 import { cn } from "~/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  loader: () => {
+    return {
+      separations: getSeparations(),
+    };
+  },
 });
 
 function Index() {
+  const { separations } = Route.useLoaderData();
   const navigate = useNavigate({ from: "/" });
-  const { addSeparation, separations } = useSeparations();
 
   const [twoStems, setTwoStems] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -53,7 +58,7 @@ function Index() {
     } else {
       // TODO: handle error
     }
-  }, [addSeparation, file, twoStems, navigate]);
+  }, [file, twoStems, navigate]);
 
   return (
     <main className="flex h-[calc(100vh-3.5rem)] flex-col items-center justify-center">

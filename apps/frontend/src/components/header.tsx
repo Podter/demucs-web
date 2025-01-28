@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { AudioLines } from "lucide-react";
 
 import GitHub from "./icons/github";
@@ -9,13 +10,13 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex h-14 w-full border-b bg-background lg:px-4">
       <div className="container flex w-full items-center justify-between">
-        <a
+        <Link
           className="flex items-center space-x-2 transition-opacity hover:opacity-80"
-          href="/"
+          to="/"
         >
           <AudioLines size={16} />
           <span className="font-medium">demucs-web</span>
-        </a>
+        </Link>
         <div className="flex items-center space-x-1">
           <Tooltip>
             <TooltipTrigger asChild>

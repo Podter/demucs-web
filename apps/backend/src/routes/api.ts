@@ -14,7 +14,7 @@ export const api = new Elysia({ prefix: "/api" })
       const hash = createClientHash(params.id);
       const clientHash = headers.authorization.split(" ")[1];
       if (hash !== clientHash) {
-        return error(403, "Forbidden");
+        return error(404, "Not Found");
       }
 
       const results = await db
@@ -25,7 +25,14 @@ export const api = new Elysia({ prefix: "/api" })
         return error(404, "Not Found");
       }
 
-      return results[0];
+      const data = results[0];
+      return {
+        id: data.id as string,
+        name: data.name as string,
+        status: data.status as "processing" | "success" | "error",
+        twoStems: data.twoStems as boolean,
+        expiresAt: data.expiresAt as Date,
+      };
     },
     {
       params: t.Object({
@@ -46,7 +53,6 @@ export const api = new Elysia({ prefix: "/api" })
           twoStems: t.BooleanString(),
           expiresAt: t.Date(),
         }),
-        403: t.Literal("Forbidden"),
         404: t.Literal("Not Found"),
       },
     },
@@ -89,9 +95,9 @@ export const api = new Elysia({ prefix: "/api" })
         .catch(console.error);
 
       return {
-        id,
-        hash: createClientHash(id),
-        expiresAt,
+        id: id as string,
+        hash: createClientHash(id) as string,
+        expiresAt: expiresAt as Date,
       };
     },
     {
