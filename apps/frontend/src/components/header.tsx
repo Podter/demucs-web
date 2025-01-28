@@ -1,10 +1,9 @@
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { AudioLines } from "lucide-react";
 
 import GitHub from "./icons/github";
 import ThemeToggle from "./theme-toggle";
 import { Button } from "./ui/button";
-import { Tooltip, TooltipContent } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function Header() {
   return (
@@ -31,14 +30,7 @@ export default function Header() {
               <p>GitHub</p>
             </TooltipContent>
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <ThemeToggle />
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>Toggle theme</p>
-            </TooltipContent>
-          </Tooltip>
+          <ThemeToggle />
         </div>
       </div>
     </header>

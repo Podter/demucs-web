@@ -3,6 +3,7 @@ import { MoonIcon, SunIcon } from "lucide-react";
 
 import { useTheme } from "./theme-provider";
 import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -21,12 +22,17 @@ export default function ThemeToggle() {
   }, [theme, setTheme]);
 
   return (
-    <Button size="icon" variant="ghost" asChild onClick={toggleTheme}>
-      <a href="https://github.com/podter/demucs-web">
-        <SunIcon size={16} className="dark:hidden" />
-        <MoonIcon size={16} className="hidden dark:block" />
-        <span className="sr-only">Toggle theme</span>
-      </a>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button size="icon" variant="ghost" onClick={toggleTheme}>
+          <SunIcon size={16} className="dark:hidden" />
+          <MoonIcon size={16} className="hidden dark:block" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        <p>Toggle theme</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
