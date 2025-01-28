@@ -1,4 +1,4 @@
-// import path from "node:path";
+import path from "node:path";
 
 /** @typedef {import("prettier").Config} PrettierConfig */
 /** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
@@ -10,13 +10,13 @@ export default {
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
   ],
-  // tailwindConfig: path.join(
-  //   import.meta.dirname,
-  //   "apps",
-  //   "frontend",
-  //   "tailwind.config.js",
-  // ),
-  // tailwindFunctions: ["cn", "cva"],
+  tailwindConfig: path.join(
+    import.meta.dirname,
+    "apps",
+    "frontend",
+    "tailwind.config.js",
+  ),
+  tailwindFunctions: ["cn", "cva"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)",
