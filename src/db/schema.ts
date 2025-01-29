@@ -1,3 +1,4 @@
+import type { InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const Result = sqliteTable("result", {
@@ -9,3 +10,5 @@ export const Result = sqliteTable("result", {
   twoStems: integer("two_stems", { mode: "boolean" }).notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
 });
+
+export type ResultType = InferSelectModel<typeof Result>;
