@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function Header() {
   return (
-    <header className="bg-background sticky top-0 z-50 flex h-14 w-full border-b lg:px-4">
+    <header className="sticky top-0 z-50 flex h-14 w-full border-b bg-background lg:px-4">
       <div className="container flex w-full items-center justify-between">
         <a
           className="flex items-center space-x-2 transition-opacity hover:opacity-80"
