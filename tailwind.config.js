@@ -1,4 +1,5 @@
 import animate from "tailwindcss-animate";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -45,6 +46,9 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+      },
+      fontFamily: {
+        sans: ["'Inter Variable'", ...fontFamily.sans],
       },
     },
   },

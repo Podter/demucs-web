@@ -6,6 +6,7 @@
       "dependencies": {
         "@elysiajs/cron": "^1.2.0",
         "@elysiajs/static": "^1.2.0",
+        "@fontsource-variable/inter": "^5.1.1",
         "@radix-ui/react-slot": "^1.1.1",
         "@t3-oss/env-core": "^0.12.0",
         "class-variance-authority": "^0.7.1",
@@ -175,6 +176,8 @@
     "@eslint/object-schema": ["@eslint/object-schema@2.1.5", "", {}, "sha512-o0bhxnL89h5Bae5T318nFoFzGy+YE5i/gGkoPAgkmTVdRKTiv3p8JHevPiPaMwoloKfEiiaHlawCqaZMqRm+XQ=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.2.5", "", { "dependencies": { "@eslint/core": "^0.10.0", "levn": "^0.4.1" } }, "sha512-lB05FkqEdUg2AA0xEbUz0SnkXT1LcCTa438W4IWTUh4hdOnVbQyOJ81OrDXsJk/LSiJHubgGEFoR5EHq1NsH1A=="],
+
+    "@fontsource-variable/inter": ["@fontsource-variable/inter@5.1.1", "", {}, "sha512-OpXFTmiH6tHkYijMvQTycFKBLK4X+SRV6tet1m4YOUH7SzIIlMqDja+ocDtiCA72UthBH/vF+3ZtlMr2rN/wIw=="],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 

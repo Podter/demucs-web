@@ -8,6 +8,7 @@ import { ThemeScript } from "~/components/theme-script";
 import { env } from "~/env";
 
 const CSS_FILE = "src/html/styles.css";
+const CSS_FONTS = "node_modules/@fontsource-variable/inter/index.css";
 
 interface RenderReactOptions {
   title: string;
@@ -26,6 +27,7 @@ export async function renderReact<T extends FC<any>>(
   );
 
   const cssFile = `/${module[CSS_FILE].file}`;
+  const cssFontsFile = `/${module[CSS_FONTS].file}`;
   const clientScriptFile = `/${module[clientScript].file}`;
 
   const stream = await renderToReadableStream(
@@ -39,6 +41,7 @@ export async function renderReact<T extends FC<any>>(
         <meta name="description" content={description} />
         <meta name="robots" content="noindex, nofollow" />
         {/* Styles */}
+        <link href={cssFontsFile} rel="stylesheet" />
         <link href={cssFile} rel="stylesheet" />
         {/* Scripts */}
         <ThemeScript />
