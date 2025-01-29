@@ -10,11 +10,24 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   includeIgnoreFile(path.join(import.meta.dirname, ".gitignore")),
   {
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        React: "writable",
+      },
+    },
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     plugins: {
       import: importPlugin,
+      "react-hooks": reactHooks,
+      "react-compiler": reactCompiler,
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-compiler/react-compiler": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
@@ -25,25 +38,6 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-non-null-assertion": "error",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
-    },
-  },
-  {
-    files: ["src/**/*.{ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: "latest",
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        React: "writable",
-      },
-    },
-    plugins: {
-      "react-hooks": reactHooks,
-      "react-compiler": reactCompiler,
-    },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      "react-compiler/react-compiler": "error",
     },
   },
 );
