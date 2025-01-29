@@ -1,9 +1,11 @@
 import { Elysia, t } from "elysia";
 
-import { createClientHash, createServerHash, getHashType } from "~/lib/crypto";
+import { createHash } from "~/lib/crypto";
 import { getFilePath } from "~/lib/file";
+import { jwt } from "~/lib/jwt";
 
 export const file = new Elysia({ prefix: "/file" })
+  .use(jwt)
   .guard({
     params: t.Object({
       id: t.String(),
@@ -12,34 +14,29 @@ export const file = new Elysia({ prefix: "/file" })
   })
   .get(
     "/:id/:filename",
-    ({ params, query, error, headers }) => {
-      const hashString = query.hash ?? headers.authorization?.split(" ")[1];
-      if (!hashString) {
-        return error(403);
+    async ({ params, error, headers, jwt, cookie }) => {
+      const file = Bun.file(getFilePath(params.id, params.filename));
+
+      if (await file.exists()) {
+        const jwtData = await jwt.verify(cookie.auth.value);
+        if (jwtData) {
+          if (jwtData.separations.includes(params.id)) {
+            return file;
+          }
+        }
+
+        const hashInput = headers.authorization?.split(" ")[1];
+        if (hashInput) {
+          const hash = createHash(params.id);
+          if (hash === hashInput) {
+            return file;
+          }
+        }
       }
 
-      const hashType = getHashType(hashString);
-      const hash =
-        hashType === "server"
-          ? createServerHash(params.id)
-          : hashType === "client"
-            ? createClientHash(params.id)
-            : "";
-
-      if (hash !== hashString) {
-        return error(403);
-      }
-
-      return Bun.file(getFilePath(params.id, params.filename));
+      return error(404);
     },
     {
-      query: t.Optional(
-        t.Partial(
-          t.Object({
-            hash: t.String(),
-          }),
-        ),
-      ),
       headers: t.Optional(
         t.Partial(
           t.Object({
@@ -52,10 +49,10 @@ export const file = new Elysia({ prefix: "/file" })
   .post(
     "/:id/:filename",
     async ({ params, headers, body, error }) => {
-      const hash = createServerHash(params.id);
-      const serverHash = headers.authorization.split(" ")[1];
-      if (hash !== serverHash) {
-        return error(403);
+      const hash = createHash(params.id);
+      const hashInput = headers.authorization.split(" ")[1];
+      if (hash !== hashInput) {
+        return error(404);
       }
 
       await Bun.write(getFilePath(params.id, params.filename), body.file);

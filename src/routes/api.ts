@@ -3,16 +3,17 @@ import { Elysia, t } from "elysia";
 
 import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
-import { createClientHash, createServerHash } from "~/lib/crypto";
+import { createHash } from "~/lib/crypto";
+import { jwt } from "~/lib/jwt";
 
 export const api = new Elysia({ prefix: "/api" })
+  .use(jwt)
   .get(
     "/status/:id",
-    async ({ params, headers, error }) => {
-      const hash = createClientHash(params.id);
-      const clientHash = headers.authorization.split(" ")[1];
-      if (hash !== clientHash) {
-        return error(403);
+    async ({ params, error, cookie, jwt }) => {
+      const jwtData = await jwt.verify(cookie.auth.value);
+      if (!jwtData || !jwtData.separations.includes(params.id)) {
+        return error(404);
       }
 
       const results = await db
@@ -29,18 +30,15 @@ export const api = new Elysia({ prefix: "/api" })
       params: t.Object({
         id: t.String(),
       }),
-      headers: t.Object({
-        authorization: t.String(),
-      }),
     },
   )
   .post(
     "/complete/:id",
     async ({ params, headers, error, body }) => {
-      const hash = createServerHash(params.id);
-      const serverHash = headers.authorization.split(" ")[1];
-      if (hash !== serverHash) {
-        return error(403);
+      const hash = createHash(params.id);
+      const hashInput = headers.authorization.split(" ")[1];
+      if (hash !== hashInput) {
+        return error(404);
       }
 
       await db

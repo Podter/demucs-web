@@ -8,7 +8,7 @@ export const DEFAULT_COOKIE_OPTS: ElysiaCookie = {
   httpOnly: true,
   sameSite: "lax",
   secure: env.NODE_ENV === "production",
-  expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+  expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
   path: "/",
 };
 

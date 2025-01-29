@@ -5,7 +5,7 @@ import { Separation } from "~/db/schema";
 import { env } from "~/env";
 import Index from "~/html/pages/index/page";
 import { renderReact } from "~/html/server";
-import { createServerHash, nanoid } from "~/lib/crypto";
+import { createHash, nanoid } from "~/lib/crypto";
 import { getFilePath } from "~/lib/file";
 import { DEFAULT_COOKIE_OPTS, jwt } from "~/lib/jwt";
 
@@ -55,7 +55,7 @@ export const index = new Elysia({ prefix: "/" })
           id,
           filename,
           two_stems: twoStems,
-          hash: createServerHash(id),
+          hash: createHash(id),
         }),
       })
         .then(() => {})
