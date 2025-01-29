@@ -8,7 +8,7 @@ export function useResult(initialData: ResultType): ResultType {
   useEffect(() => {
     if (result.status === "processing") {
       const interval = setInterval(async () => {
-        const data: ResultType = await fetch(`/api/results/${result.id}`).then(
+        const data: ResultType = await fetch(`/api/result/${result.id}`).then(
           (res) => res.json(),
         );
         setResult(data);

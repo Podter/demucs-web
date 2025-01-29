@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 
 import { db } from "~/db/client";
@@ -11,10 +12,20 @@ import { DEFAULT_COOKIE_OPTS, jwt } from "~/lib/jwt";
 
 export const index = new Elysia({ prefix: "/" })
   .use(jwt)
-  .get("/", () => {
+  .get("/", async ({ cookie, jwt }) => {
+    const jwtData = await jwt.verify(cookie.auth.value);
+    const results = jwtData ? jwtData.results : [];
+
+    const data = await Promise.all(
+      results.map(async (id) => {
+        const results = await db.select().from(Result).where(eq(Result.id, id));
+        return results[0];
+      }),
+    );
+
     return renderReact(
       Index,
-      { message: "Hello, world" },
+      { results: data },
       {
         title: "Hello, world!",
         description: "Elysia",
