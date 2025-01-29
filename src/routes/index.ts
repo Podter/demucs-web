@@ -1,15 +1,16 @@
 import { Elysia, t } from "elysia";
-import { nanoid } from "nanoid";
 
 import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
 import { env } from "~/env";
 import Index from "~/html/pages/index/page";
 import { renderReact } from "~/html/server";
-import { createClientHash, createServerHash } from "~/lib/crypto";
+import { createServerHash, nanoid } from "~/lib/crypto";
 import { getFilePath } from "~/lib/file";
+import { DEFAULT_COOKIE_OPTS, jwt } from "~/lib/jwt";
 
 export const index = new Elysia({ prefix: "/" })
+  .use(jwt)
   .get("/", () => {
     return renderReact(
       Index,
@@ -23,7 +24,7 @@ export const index = new Elysia({ prefix: "/" })
   })
   .post(
     "/",
-    async ({ body, error }) => {
+    async ({ body, error, jwt, cookie, redirect }) => {
       if (body.file.type.split("/")[0] !== "audio") {
         return error(400);
       }
@@ -60,11 +61,15 @@ export const index = new Elysia({ prefix: "/" })
         .then(() => {})
         .catch(console.error);
 
-      return {
-        id,
-        hash: createClientHash(id),
-        expiresAt,
-      };
+      const jwtData = await jwt.verify(cookie.auth.value);
+      cookie.auth.set({
+        value: await jwt.sign({
+          separations: jwtData ? [...jwtData.separations, id] : [id],
+        }),
+        ...DEFAULT_COOKIE_OPTS,
+      });
+
+      return redirect(`/${id}`, 303);
     },
     {
       body: t.Object({
