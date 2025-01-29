@@ -1,9 +1,13 @@
+import path from "node:path";
 import type { ComponentProps, FC } from "react";
+import type { Manifest } from "vite";
 import { renderToReadableStream } from "react-dom/server";
 
 import Layout from "~/components/layout";
 import { ThemeScript } from "~/components/theme-script";
-import { getClientAsset } from "~/lib/manifest";
+import { env } from "~/env";
+
+const CSS_FILE = "src/html/styles.css";
 
 interface RenderReactOptions {
   title: string;
@@ -17,7 +21,12 @@ export async function renderReact<T extends FC<any>>(
   props: ComponentProps<T>,
   { title, description, clientScript }: RenderReactOptions,
 ) {
-  const cssFile = await getClientAsset("src/html/styles.css");
+  const module: Manifest = await import(
+    path.join(env.STATIC_DIR, ".vite", "manifest.json")
+  );
+
+  const cssFile = `/${module[CSS_FILE].file}`;
+  const clientScriptFile = `/${module[clientScript].file}`;
 
   const stream = await renderToReadableStream(
     <html lang="en">
@@ -33,7 +42,7 @@ export async function renderReact<T extends FC<any>>(
         <link href={cssFile} rel="stylesheet" />
         {/* Scripts */}
         <ThemeScript />
-        <script src={clientScript} type="module" />
+        <script src={clientScriptFile} type="module" />
       </head>
       <body>
         <div id="app-root" data-props={JSON.stringify(props ?? {})}>
