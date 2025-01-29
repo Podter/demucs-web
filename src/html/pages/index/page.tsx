@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Button } from "~/components/ui/button";
+
 interface IndexProps {
   message: string;
 }
@@ -10,7 +12,7 @@ export default function Index({ message }: IndexProps) {
   return (
     <>
       <h1>{message}</h1>
-      <button onClick={() => setCount((n) => n + 1)}>{count}</button>
+      <Button onClick={() => setCount((n) => n + 1)}>{count}</Button>
     </>
   );
 }
