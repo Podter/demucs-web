@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import ChevronRight from "~/components/icons/chevron-right";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
+import { Spinner } from "~/components/ui/spinner";
 import { Switch } from "~/components/ui/switch";
 import { cn } from "~/lib/utils";
 
@@ -75,6 +76,7 @@ export default function Index() {
           Separate <ChevronRight />
         </Button>
       </form>
+      <Spinner />
     </main>
   );
 }

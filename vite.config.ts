@@ -8,7 +8,7 @@ export default defineConfig({
       input: [
         "./src/html/pages/index/client.ts",
         "./src/html/pages/result/client.ts",
-        "./src/html/styles.css",
+        "./src/html/styles.scss",
         "node_modules/@fontsource-variable/inter/index.css",
       ],
     },

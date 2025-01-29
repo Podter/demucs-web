@@ -7,7 +7,7 @@ import Layout from "~/components/layout";
 import { ThemeScript } from "~/components/theme-script";
 import { env } from "~/env";
 
-const CSS_FILE = "src/html/styles.css";
+const CSS_FILE = "src/html/styles.scss";
 const CSS_FONTS = "node_modules/@fontsource-variable/inter/index.css";
 
 interface RenderReactOptions {

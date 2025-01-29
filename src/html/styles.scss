@@ -57,3 +57,45 @@
     @apply bg-background font-sans text-foreground antialiased;
   }
 }
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  opacity: 0.65;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+}
+
+.spinner-leaf {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 12.5% / 2);
+  width: 12.5%;
+  height: 100%;
+  animation: spinner-leaf-fade 800ms linear infinite;
+}
+
+.spinner-leaf:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 30%;
+  border-radius: 3px;
+  background-color: currentColor;
+}
+
+@for $i from 1 through 8 {
+  .spinner-leaf:nth-child(#{$i}) {
+    transform: rotate(45deg * ($i - 1));
+    animation-delay: calc((-9 + $i) / 8 * 800ms);
+  }
+}
+
+@keyframes spinner-leaf-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
