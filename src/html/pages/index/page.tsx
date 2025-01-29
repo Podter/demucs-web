@@ -23,7 +23,7 @@ export default function Index() {
   const file = useMemo(() => acceptedFiles[0], [acceptedFiles]);
 
   return (
-    <main className="flex w-full flex-col items-center space-y-6 px-6 pt-12 lg:pt-20">
+    <main className="flex w-full flex-col items-center space-y-8 px-6 pt-12 lg:pt-20">
       {/* TODO: change this */}
       <h1 className="text-center text-5xl font-bold">
         Separate vocals from music tracks
@@ -36,7 +36,7 @@ export default function Index() {
         method="POST"
         action="/"
         encType="multipart/form-data"
-        className="flex w-full flex-col items-center justify-center space-y-4"
+        className="flex w-full flex-col items-center justify-center space-y-6"
       >
         <div
           {...getRootProps({
