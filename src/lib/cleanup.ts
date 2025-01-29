@@ -5,6 +5,14 @@ import { db } from "~/db/client";
 import { Separation } from "~/db/schema";
 import { getFilesPath } from "./file";
 
+export async function removeSeparation(id: string) {
+  await Promise.all([
+    Bun.file(getFilesPath(id)).delete(),
+    db.delete(Separation).where(eq(Separation.id, id)),
+  ]);
+}
+
+// TODO: clean unreferenced files
 export const cleanup = cron({
   name: "cleanup",
   pattern: "0 0 * * *", // Run every day at midnight
@@ -19,10 +27,7 @@ export const cleanup = cron({
     if (expired.length > 0) {
       await Promise.all(
         expired.map(async ({ id }) => {
-          await Promise.all([
-            Bun.file(getFilesPath(id)).delete(),
-            db.delete(Separation).where(eq(Separation.id, id)),
-          ]);
+          await removeSeparation(id);
         }),
       );
 
