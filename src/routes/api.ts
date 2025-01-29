@@ -2,24 +2,24 @@ import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 
 import { db } from "~/db/client";
-import { Separation } from "~/db/schema";
+import { Result } from "~/db/schema";
 import { createHash } from "~/lib/crypto";
 import { jwt } from "~/lib/jwt";
 
 export const api = new Elysia({ prefix: "/api" })
   .use(jwt)
   .get(
-    "/status/:id",
+    "/result/:id",
     async ({ params, error, cookie, jwt }) => {
       const jwtData = await jwt.verify(cookie.auth.value);
-      if (!jwtData || !jwtData.separations.includes(params.id)) {
+      if (!jwtData || !jwtData.results.includes(params.id)) {
         return error(404);
       }
 
       const results = await db
         .select()
-        .from(Separation)
-        .where(eq(Separation.id, params.id));
+        .from(Result)
+        .where(eq(Result.id, params.id));
       if (results.length <= 0) {
         return error(404);
       }
@@ -42,9 +42,9 @@ export const api = new Elysia({ prefix: "/api" })
       }
 
       await db
-        .update(Separation)
+        .update(Result)
         .set({ status: body.success ? "success" : "error" })
-        .where(eq(Separation.id, params.id));
+        .where(eq(Result.id, params.id));
 
       return new Response(null, { status: 204 });
     },

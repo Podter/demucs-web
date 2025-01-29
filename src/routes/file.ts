@@ -20,7 +20,7 @@ export const file = new Elysia({ prefix: "/file" })
       if (await file.exists()) {
         const jwtData = await jwt.verify(cookie.auth.value);
         if (jwtData) {
-          if (jwtData.separations.includes(params.id)) {
+          if (jwtData.results.includes(params.id)) {
             return file;
           }
         }

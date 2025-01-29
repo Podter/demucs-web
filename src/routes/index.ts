@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 
 import { db } from "~/db/client";
-import { Separation } from "~/db/schema";
+import { Result } from "~/db/schema";
 import { env } from "~/env";
 import Index from "~/html/pages/index/page";
 import { renderReact } from "~/html/server";
@@ -38,7 +38,7 @@ export const index = new Elysia({ prefix: "/" })
       const filename = `original.${extension}`;
       await Bun.write(getFilePath(id, filename), body.file);
 
-      await db.insert(Separation).values({
+      await db.insert(Result).values({
         id,
         name: body.file.name.split(".").shift() ?? "",
         status: "processing",
@@ -64,12 +64,12 @@ export const index = new Elysia({ prefix: "/" })
       const jwtData = await jwt.verify(cookie.auth.value);
       cookie.auth.set({
         value: await jwt.sign({
-          separations: jwtData ? [...jwtData.separations, id] : [id],
+          results: jwtData ? [...jwtData.results, id] : [id],
         }),
         ...DEFAULT_COOKIE_OPTS,
       });
 
-      return redirect(`/${id}`, 303);
+      return redirect(`/result/${id}`, 303);
     },
     {
       body: t.Object({

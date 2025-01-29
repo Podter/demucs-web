@@ -7,7 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: [
         "./src/html/pages/index/client.ts",
-        "./src/html/pages/editor/client.ts",
+        "./src/html/pages/result/client.ts",
         "./src/html/styles.css",
         "node_modules/@fontsource-variable/inter/index.css",
       ],

@@ -2,13 +2,13 @@ import cron from "@elysiajs/cron";
 import { eq, lt } from "drizzle-orm";
 
 import { db } from "~/db/client";
-import { Separation } from "~/db/schema";
+import { Result } from "~/db/schema";
 import { getFilesPath } from "./file";
 
-export async function removeSeparation(id: string) {
+export async function deleteResult(id: string) {
   await Promise.all([
     Bun.file(getFilesPath(id)).delete(),
-    db.delete(Separation).where(eq(Separation.id, id)),
+    db.delete(Result).where(eq(Result.id, id)),
   ]);
 }
 
@@ -19,19 +19,19 @@ export const cleanup = cron({
   run: async () => {
     const expired = await db
       .select({
-        id: Separation.id,
+        id: Result.id,
       })
-      .from(Separation)
-      .where(lt(Separation.expiresAt, new Date()));
+      .from(Result)
+      .where(lt(Result.expiresAt, new Date()));
 
     if (expired.length > 0) {
       await Promise.all(
         expired.map(async ({ id }) => {
-          await removeSeparation(id);
+          await deleteResult(id);
         }),
       );
 
-      console.log(`Cleanup: deleted ${expired.length} expired separations`);
+      console.log(`Cleanup: deleted ${expired.length} expired results`);
     }
   },
 });

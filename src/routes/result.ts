@@ -1,24 +1,24 @@
 import { Elysia, t } from "elysia";
 
-import Editor from "~/html/pages/editor/page";
+import ResultPage from "~/html/pages/result/page";
 import { renderReact } from "~/html/server";
 import { jwt } from "~/lib/jwt";
 
-export const editor = new Elysia({ prefix: "/" }).use(jwt).get(
+export const result = new Elysia({ prefix: "/result" }).use(jwt).get(
   "/:id",
   async ({ cookie, jwt, params, error }) => {
     const jwtData = await jwt.verify(cookie.auth.value);
-    if (!jwtData || !jwtData.separations.includes(params.id)) {
+    if (!jwtData || !jwtData.results.includes(params.id)) {
       return error(404);
     }
 
     return renderReact(
-      Editor,
+      ResultPage,
       {},
       {
-        title: "Editor",
-        description: "The editor",
-        clientScript: "src/html/pages/editor/client.ts",
+        title: "Result",
+        description: "The result",
+        clientScript: "src/html/pages/result/client.ts",
       },
     );
   },

@@ -15,6 +15,6 @@ export const DEFAULT_COOKIE_OPTS: ElysiaCookie = {
 export const jwt = elysiaJWT({
   secret: env.SECRET,
   schema: t.Object({
-    separations: t.Array(t.String()),
+    results: t.Array(t.String()),
   }),
 });
