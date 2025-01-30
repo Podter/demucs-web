@@ -75,6 +75,7 @@ export const index = new Elysia({ prefix: "/" })
         headers: {
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(data),
+          Authorization: `Bearer ${env.DEMUCS_API_KEY}`,
         },
       });
 

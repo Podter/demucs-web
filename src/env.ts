@@ -8,6 +8,7 @@ export const env = createEnv({
 
     SECRET: z.string(),
     DEMUCS_API: z.string(),
+    DEMUCS_API_KEY: z.string().optional(),
 
     PORT: z.string().transform(Number).default("3000"),
     DATA_DIR: z.string().default("data"),
