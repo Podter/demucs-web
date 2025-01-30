@@ -1,7 +1,10 @@
 {
   "name": "demucs-web",
-  "private": true,
+  "description": "A web interface for Demucs",
+  "license": "MIT",
+  "author": "Podter",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "bun run --watch src/main.ts & bun run build:client --watch",
     "build": "NODE_ENV=production bun run typecheck && rm -rf dist && bun run build:server && bun run build:client",
