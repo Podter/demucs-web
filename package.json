@@ -17,6 +17,7 @@
     "@elysiajs/jwt": "^1.2.0",
     "@elysiajs/static": "^1.2.0",
     "@fontsource-variable/inter": "^5.1.1",
+    "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-switch": "^1.1.2",
