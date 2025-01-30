@@ -9,7 +9,7 @@ import shutil
 MODEL = "htdemucs"
 MP3_BITRATE = 320
 MP3_QUALITY = 2
-API_URL = "http://localhost:3000"
+API_URL = os.getenv("API_URL", "http://localhost:3000")
 
 
 class DemucsInput(TypedDict):
