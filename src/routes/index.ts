@@ -1,4 +1,3 @@
-import http from "node:http";
 import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 
@@ -66,6 +65,11 @@ export const index = new Elysia({ prefix: "/" })
       });
 
       const apiUrl = new URL(`${env.DEMUCS_API}/predict`);
+      const http =
+        apiUrl.protocol === "https:"
+          ? await import("node:https")
+          : await import("node:http");
+
       const req = http.request(apiUrl, {
         method: "POST",
         headers: {
