@@ -58,7 +58,7 @@ export default function ResultItem({ initialData }: ResultItemProps) {
 
   return (
     <div
-      className="group flex w-full items-center justify-between border-x border-t p-4 transition-colors first:rounded-t-xl last:rounded-b-xl last:border-b"
+      className="group flex w-full items-center justify-between border-x border-t p-4 transition-colors first:rounded-t-lg last:rounded-b-lg last:border-b"
       onClick={goToResult}
     >
       <div className="flex items-center space-x-3">
