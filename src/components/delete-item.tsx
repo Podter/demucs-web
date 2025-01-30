@@ -56,9 +56,7 @@ export default function DeleteItem({ id, name }: DeleteItemProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete{" "}
-              <span className="font-semibold text-foreground/75">{name}</span>{" "}
-              from the list.
+              You're about to delete "{name}". You cannot undo this action.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
