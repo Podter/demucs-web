@@ -8,30 +8,27 @@ import { jwt } from "~/lib/jwt";
 
 export const api = new Elysia({ prefix: "/api" })
   .use(jwt)
-  .get(
-    "/result/:id",
-    async ({ params, error, cookie, jwt }) => {
-      const jwtData = await jwt.verify(cookie.auth.value);
-      if (!jwtData || !jwtData.results.includes(params.id)) {
-        return error(404);
-      }
+  .guard({
+    params: t.Object({
+      id: t.String(),
+    }),
+  })
+  .get("/result/:id", async ({ params, error, cookie, jwt }) => {
+    const jwtData = await jwt.verify(cookie.auth.value);
+    if (!jwtData || !jwtData.results.includes(params.id)) {
+      return error(404);
+    }
 
-      const results = await db
-        .select()
-        .from(Result)
-        .where(eq(Result.id, params.id));
-      if (results.length <= 0) {
-        return error(404);
-      }
+    const results = await db
+      .select()
+      .from(Result)
+      .where(eq(Result.id, params.id));
+    if (results.length <= 0) {
+      return error(404);
+    }
 
-      return results[0];
-    },
-    {
-      params: t.Object({
-        id: t.String(),
-      }),
-    },
-  )
+    return results[0];
+  })
   .post(
     "/result/:id",
     async ({ params, headers, error, body }) => {
@@ -49,9 +46,6 @@ export const api = new Elysia({ prefix: "/api" })
       return new Response(null, { status: 204 });
     },
     {
-      params: t.Object({
-        id: t.String(),
-      }),
       body: t.Object({
         success: t.BooleanString(),
       }),
