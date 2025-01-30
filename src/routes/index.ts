@@ -27,8 +27,9 @@ export const index = new Elysia({ prefix: "/" })
       Index,
       { results: data.reverse() },
       {
-        title: "Hello, world!",
-        description: "Elysia",
+        title: "demucs-web",
+        description:
+          "Separate vocals from music tracks with AI-powered tool. Upload your audio file and let the magic happen.",
         clientScript: "src/html/pages/index/client.ts",
       },
     );

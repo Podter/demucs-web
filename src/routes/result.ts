@@ -25,8 +25,8 @@ export const result = new Elysia({ prefix: "/result" }).use(jwt).get(
       ResultPage,
       { ...result },
       {
-        title: "Result",
-        description: "The result",
+        title: `demucs-web - ${result.name}`,
+        description: `Separation result of ${result.name} uploaded to demucs-web.`,
         clientScript: "src/html/pages/result/client.ts",
       },
     );
