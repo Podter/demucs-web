@@ -1,3 +1,4 @@
+import http from "node:http";
 import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 
@@ -57,20 +58,31 @@ export const index = new Elysia({ prefix: "/" })
         expiresAt,
       });
 
-      fetch(`${env.DEMUCS_API}/predict`, {
+      const data = JSON.stringify({
+        id,
+        filename,
+        two_stems: twoStems,
+        hash: createHash(id),
+      });
+
+      const apiUrl = new URL(`${env.DEMUCS_API}/predict`);
+      const req = http.request(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(data),
         },
-        body: JSON.stringify({
-          id,
-          filename,
-          two_stems: twoStems,
-          hash: createHash(id),
-        }),
-      })
-        .then(() => {})
-        .catch(console.error);
+      });
+
+      req.on("error", async (e) => {
+        console.error(e);
+        await db
+          .update(Result)
+          .set({ status: "error" })
+          .where(eq(Result.id, id));
+      });
+      req.write(data);
+      req.end();
 
       const jwtData = await jwt.verify(cookie.auth.value);
       cookie.auth.set({
