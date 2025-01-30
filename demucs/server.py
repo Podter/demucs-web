@@ -6,7 +6,8 @@ import os
 import shutil
 
 # MODEL = "htdemucs_ft"
-MODEL = "htdemucs"
+# MODEL = "htdemucs"
+MODEL = os.getenv("MODEL", "htdemucs")
 MP3_BITRATE = 320
 MP3_QUALITY = 2
 API_URL = os.getenv("API_URL", "http://localhost:3000")
