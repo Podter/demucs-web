@@ -14,8 +14,8 @@ export default function Index({ results }: IndexProps) {
         Separate vocals from music tracks
       </h1>
       <p className="max-w-lg text-center text-muted-foreground">
-        Isolate vocals from music tracks with our AI-powered tool. Upload your
-        audio file and let the magic happen.
+        Isolate vocals from music tracks with AI-powered tool. Upload your audio
+        file and let the magic happen.
       </p>
       <Form />
       <div className="flex w-full max-w-lg flex-col items-center">

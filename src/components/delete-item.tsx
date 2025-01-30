@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { Trash2Icon } from "lucide-react";
 
+import type { ButtonProps } from "~/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,6 +10,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import {
@@ -21,9 +22,15 @@ import {
 interface DeleteItemProps {
   id: string;
   name: string;
+  withTooltip?: boolean;
 }
 
-export default function DeleteItem({ id, name }: DeleteItemProps) {
+export default function DeleteItem({
+  id,
+  name,
+  withTooltip = false,
+  ...props
+}: DeleteItemProps & ButtonProps) {
   const [open, setOpen] = useState(false);
 
   const deleteItem = useCallback(async () => {
@@ -40,18 +47,22 @@ export default function DeleteItem({ id, name }: DeleteItemProps) {
 
   return (
     <>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button size="icon" variant="ghost" onClick={() => setOpen(true)}>
-            <Trash2Icon size={16} />
-            <span className="sr-only">Delete</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <p>Delete</p>
-        </TooltipContent>
-      </Tooltip>
+      {withTooltip && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button {...props} onClick={() => setOpen(true)} />
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Delete</p>
+          </TooltipContent>
+        </Tooltip>
+      )}
       <AlertDialog open={open} onOpenChange={setOpen}>
+        {!withTooltip && (
+          <AlertDialogTrigger asChild>
+            <Button {...props} />
+          </AlertDialogTrigger>
+        )}
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

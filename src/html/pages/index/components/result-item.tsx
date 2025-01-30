@@ -2,11 +2,12 @@ import { useCallback, useMemo } from "react";
 import {
   AudioLinesIcon,
   CheckIcon,
+  CircleAlertIcon,
   ClockIcon,
   DrumIcon,
   GuitarIcon,
   MicVocalIcon,
-  XIcon,
+  Trash2Icon,
 } from "lucide-react";
 
 import type { ResultType } from "~/db/schema";
@@ -93,11 +94,14 @@ export default function ResultItem({ initialData }: ResultItemProps) {
         ) : status === "processing" ? (
           <Spinner size={16} />
         ) : (
-          <XIcon size={16} />
+          <CircleAlertIcon size={16} />
         )}
       </div>
       <div className="hidden space-x-1 sm:group-hover:flex">
-        <DeleteItem id={id} name={name} />
+        <DeleteItem id={id} name={name} withTooltip size="icon" variant="ghost">
+          <Trash2Icon size={16} />
+          <span className="sr-only">Delete</span>
+        </DeleteItem>
         <ResultLink href={`/result/${id}`} />
       </div>
     </div>
