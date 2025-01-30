@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { FileMusicIcon, UploadIcon } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 
@@ -9,6 +9,8 @@ import { Switch } from "~/components/ui/switch";
 import { cn } from "~/lib/utils";
 
 export default function Form() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { isDragAccept, getRootProps, getInputProps, open, acceptedFiles } =
     useDropzone({
       noClick: true,
@@ -18,6 +20,15 @@ export default function Form() {
       },
       maxFiles: 1,
       multiple: false,
+      onDrop: (files) => {
+        if (inputRef.current) {
+          const dataTransfer = new DataTransfer();
+          files.forEach((v) => {
+            dataTransfer.items.add(v);
+          });
+          inputRef.current.files = dataTransfer.files;
+        }
+      },
     });
 
   const file = useMemo(() => acceptedFiles[0], [acceptedFiles]);
@@ -50,11 +61,14 @@ export default function Form() {
           Browse files
         </Button>
         <input
-          {...getInputProps({
-            name: "file",
-            required: true,
-          })}
+          type="file"
+          name="file"
+          required
+          accept="audio/*"
+          className="sr-only"
+          ref={inputRef}
         />
+        <input {...getInputProps()} />
       </div>
       <div className="flex items-center space-x-2">
         <Switch id="two-stems" name="two_stems" defaultChecked />
