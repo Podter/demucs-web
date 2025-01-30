@@ -25,7 +25,7 @@ export const index = new Elysia({ prefix: "/" })
 
     return renderReact(
       Index,
-      { results: data },
+      { results: data.reverse() },
       {
         title: "Hello, world!",
         description: "Elysia",
