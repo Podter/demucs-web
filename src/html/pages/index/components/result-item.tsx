@@ -97,7 +97,7 @@ export default function ResultItem({ initialData }: ResultItemProps) {
         )}
       </div>
       <div className="hidden space-x-1 sm:group-hover:flex">
-        <DeleteItem id={id} />
+        <DeleteItem id={id} name={name} />
         <ResultLink href={`/result/${id}`} />
       </div>
     </div>

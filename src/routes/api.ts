@@ -53,4 +53,14 @@ export const api = new Elysia({ prefix: "/api" })
         authorization: t.String(),
       }),
     },
-  );
+  )
+  .delete("/result/:id", async ({ params, jwt, cookie, error }) => {
+    const jwtData = await jwt.verify(cookie.auth.value);
+    if (!jwtData || !jwtData.results.includes(params.id)) {
+      return error(404);
+    }
+
+    await db.delete(Result).where(eq(Result.id, params.id));
+
+    return new Response(null, { status: 204 });
+  });
