@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   AudioLinesIcon,
   CheckIcon,
@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 
 import type { ResultType } from "~/db/schema";
+import DeleteItem from "~/components/delete-item";
 import { labelVariants } from "~/components/ui/label";
 import { Spinner } from "~/components/ui/spinner";
 import { useResult } from "~/hooks/use-result";
+import ResultLink from "./result-link";
 
 interface ResultItemProps {
   initialData: ResultType;
@@ -48,13 +50,21 @@ export default function ResultItem({ initialData }: ResultItemProps) {
     return "less than a minute";
   }, [expiresAt]);
 
+  const goToResult = useCallback(() => {
+    if (window.innerWidth < 640) {
+      window.location.href = `/result/${id}`;
+    }
+  }, [id]);
+
   return (
-    <a
-      href={`/result/${id}`}
-      className="flex w-full items-center justify-between border-x border-t p-4 transition-colors first:rounded-t-xl last:rounded-b-xl last:border-b hover:bg-accent hover:text-accent-foreground"
+    <div
+      className="group flex w-full items-center justify-between border-x border-t p-4 transition-colors first:rounded-t-xl last:rounded-b-xl last:border-b"
+      onClick={goToResult}
     >
       <div className="flex items-center space-x-3">
-        <AudioLinesIcon size={24} />
+        <div className="flex h-9 w-9 items-center justify-center">
+          <AudioLinesIcon size={24} />
+        </div>
         <div className="space-y-1.5">
           <p className={labelVariants()}>{name}</p>
           <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -77,13 +87,19 @@ export default function ResultItem({ initialData }: ResultItemProps) {
           </div>
         </div>
       </div>
-      {status === "success" ? (
-        <CheckIcon size={16} />
-      ) : status === "processing" ? (
-        <Spinner size={16} />
-      ) : (
-        <XIcon size={16} />
-      )}
-    </a>
+      <div className="flex h-9 w-9 items-center justify-center sm:group-hover:hidden">
+        {status === "success" ? (
+          <CheckIcon size={16} />
+        ) : status === "processing" ? (
+          <Spinner size={16} />
+        ) : (
+          <XIcon size={16} />
+        )}
+      </div>
+      <div className="hidden space-x-1 sm:group-hover:flex">
+        <DeleteItem id={id} />
+        <ResultLink href={`/result/${id}`} />
+      </div>
+    </div>
   );
 }
