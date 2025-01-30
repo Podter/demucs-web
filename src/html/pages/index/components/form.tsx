@@ -57,7 +57,7 @@ export default function Form() {
               : "or click to browse a file"}
           </p>
         </div>
-        <Button onClick={open} variant="secondary" type="button">
+        <Button onClick={open} variant="outline" type="button">
           Browse files
         </Button>
         <input
