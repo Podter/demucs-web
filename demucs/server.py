@@ -137,7 +137,7 @@ class DemucsAPI(LitAPI):
             success = False
 
         requests.post(
-            f"{API_URL}/api/complete/{id}",
+            f"{API_URL}/api/result/{id}",
             json={"success": success},
             headers={"Authorization": f"Bearer {hash}"},
         )

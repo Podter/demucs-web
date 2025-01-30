@@ -33,7 +33,7 @@ export const api = new Elysia({ prefix: "/api" })
     },
   )
   .post(
-    "/complete/:id",
+    "/result/:id",
     async ({ params, headers, error, body }) => {
       const hash = createHash(params.id);
       const hashInput = headers.authorization.split(" ")[1];
