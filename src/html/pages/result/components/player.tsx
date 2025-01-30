@@ -47,8 +47,8 @@ export default function Player({ data }: PlayerProps) {
     <main className="flex w-full flex-col items-center space-y-6 px-6 py-12">
       <h1 className="text-xl font-semibold">{data.name}</h1>
       <div className="flex w-full flex-col items-center space-y-4">
-        {sounds.map(({ url, icon: Icon }) => (
-          <div className="flex w-full max-w-lg items-center space-x-3">
+        {sounds.map(({ url, icon: Icon }, i) => (
+          <div className="flex w-full max-w-lg items-center space-x-3" key={i}>
             <Icon />
             <audio src={url} controls className="w-full" key={url} />
           </div>

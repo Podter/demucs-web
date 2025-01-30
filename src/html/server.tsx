@@ -37,7 +37,7 @@ export async function renderReact<T extends FC<any>>(
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
         <meta name="description" content={description} />
         <meta name="robots" content="noindex, nofollow" />
         {/* Styles */}
