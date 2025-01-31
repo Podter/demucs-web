@@ -1,0 +1,11 @@
+services:
+  demucs-web:
+    build:
+      context: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/data:rw
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
