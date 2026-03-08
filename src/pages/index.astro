@@ -1,4 +1,5 @@
 ---
+import Counter from "~/components/counter";
 import "~/styles/globals.css";
 ---
 
@@ -13,5 +14,6 @@ import "~/styles/globals.css";
   </head>
   <body>
     <h1 class="text-3xl font-bold">Astro</h1>
+    <Counter client:load />
   </body>
 </html>
