@@ -6,6 +6,7 @@ import eslint from "@eslint/js";
 import astroParser from "astro-eslint-parser";
 import astroPlugin from "eslint-plugin-astro";
 import importPlugin from "eslint-plugin-import";
+// @ts-expect-error - no types available
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -16,7 +17,7 @@ const baseConfig = defineConfig(
   includeIgnoreFile(path.join(import.meta.dirname, ".gitignore")),
   { ignores: ["**/*.config.*"] },
   {
-    files: ["**/*.js", "**/*.ts", "**/*.tsx"],
+    files: ["**/*.js", "**/*.ts", "**/*.tsx", "**/*.astro"],
     plugins: {
       import: importPlugin,
     },
@@ -77,16 +78,26 @@ const reactConfig = defineConfig(
   reactHooks.configs.flat["recommended-latest"],
 );
 
-const astroConfig = defineConfig(...astroPlugin.configs.recommended, {
-  files: ["**/*.astro"],
-  languageOptions: {
-    parser: astroParser,
-    parserOptions: {
-      parser: tseslint.parser,
-      project: true,
-      extraFileExtensions: [".astro"],
+const astroConfig = defineConfig(
+  astroPlugin.configs.recommended,
+
+  {
+    files: ["**/*.astro"],
+    plugins: {
+      "jsx-a11y": jsxA11y,
+    },
+    rules: {
+      ...astroPlugin.configs["jsx-a11y-recommended"][4].rules,
+    },
+    languageOptions: {
+      parser: astroParser,
+      parserOptions: {
+        parser: tseslint.parser,
+        project: true,
+        extraFileExtensions: [".astro"],
+      },
     },
   },
-});
+);
 
 export default defineConfig(baseConfig, reactConfig, astroConfig);
