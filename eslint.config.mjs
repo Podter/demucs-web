@@ -16,7 +16,7 @@ import tseslint from "typescript-eslint";
 
 const baseConfig = defineConfig(
   includeIgnoreFile(path.join(import.meta.dirname, ".gitignore")),
-  { ignores: ["**/*.config.*"] },
+  { ignores: ["**/*.config.*", ".prettierrc.mjs", "public/*"] },
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx", "**/*.astro"],
     plugins: {
