@@ -1,44 +1,43 @@
-# demucs-web
+# Astro Starter Kit: Minimal
 
-A web interface for [Demucs](https://github.com/adefossez/demucs), a state-of-the-art music source separation model.
-Separate vocals, drums, bass and others from any track.
-
-![Screenshot](docs/web.png)
-
-## Deployment
-
-First, you need to deploy the Demucs server inside `demucs` folder somewhere.
-This server will be responsible for separating the audio tracks, so it needs GPU support.
-
-I deployed this on [Lightning AI](https://lightning.ai).
-
-These are environment variables for the Demucs server:
-
-- `API_URL`: URL of the web interface server
-- `MODEL`: Model to use for separation. `htdemucs_ft` is recommended. Read more about the models [here](https://github.com/adefossez/demucs/?tab=readme-ov-file#separating-tracks).
-
-Then you can deploy the web interface server:
-
-```bash
-docker compose up -d --build
+```sh
+bun create astro@latest -- --template minimal
 ```
 
-These are environment variables for the web interface server:
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-- `SECRET`: Secret key for the server, used for authentication
-- `DEMUCS_API`: URL of the Demucs server
-- `DEMUCS_API_KEY`: API key for the Demucs server (optional, if deployed on Lightning AI)
+## 🚀 Project Structure
 
-## Development
+Inside of your Astro project, you'll see the following folders and files:
 
-Make sure you have Bun installed, then run:
-
-```bash
-bun dev
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
 ```
 
-Check `http://localhost:3000` to see the result.
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-## License
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more information.
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `bun install`             | Installs dependencies                            |
+| `bun dev`             | Starts local dev server at `localhost:4321`      |
+| `bun build`           | Build your production site to `./dist/`          |
+| `bun preview`         | Preview your build locally, before deploying     |
+| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `bun astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
