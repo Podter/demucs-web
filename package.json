@@ -3,11 +3,14 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "lint": "prettier --check . && eslint .",
-    "format": "prettier --write ."
+    "dev": "bun -b astro dev",
+    "build": "bun -b astro build",
+    "preview": "bun -b astro preview",
+    "lint": "bun -b prettier --check . && bun -b eslint .",
+    "format": "bun -b prettier --write .",
+    "docker:up": "docker compose -f compose-dev.yml up -d",
+    "docker:down": "docker compose -f compose-dev.yml down",
+    "docker:rm": "docker compose -f compose-dev.yml down -v --remove-orphans"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
