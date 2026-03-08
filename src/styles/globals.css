@@ -124,6 +124,9 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply font-sans antialiased;
+  }
+  main {
+    @apply min-h-[calc(100vh-3.5rem-4.5rem)] sm:min-h-[calc(100vh-3.5rem-3.5rem)];
   }
 }

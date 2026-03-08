@@ -1,19 +1,16 @@
 ---
-import Counter from "~/components/counter";
-
-import "~/styles/globals.css";
+import Layout from "~/layouts/layout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1 class="text-3xl font-bold">Astro</h1>
-    <Counter client:load />
-  </body>
-</html>
+<Layout title="demucs-web">
+  <main class="flex w-full flex-col items-center space-y-8 px-6 py-12 lg:pt-20">
+    <h1 class="text-center text-5xl font-bold">
+      Separate vocals from music tracks
+    </h1>
+    <p class="text-muted-foreground max-w-lg text-center">
+      Isolate vocals from music tracks with AI-powered tool. Upload your audio
+      file and let the magic happen.
+    </p>
+    <div class="flex w-full max-w-lg flex-col items-center"></div>
+  </main>
+</Layout>
