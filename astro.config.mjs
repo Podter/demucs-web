@@ -4,6 +4,7 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
+import memoryDriver from "unstorage/drivers/memory";
 
 // https://astro.build/config
 export default defineConfig({
@@ -33,7 +34,16 @@ export default defineConfig({
   },
   env: {
     schema: {
+      APP_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+      }),
       REDIS_URL: envField.string({
+        context: "server",
+        access: "secret",
+        url: true,
+      }),
+      DEMUCS_COG_URL: envField.string({
         context: "server",
         access: "secret",
         url: true,

@@ -1,0 +1,19 @@
+---
+import Logs from "~/components/logs";
+import Layout from "~/layouts/layout.astro";
+
+const { id } = Astro.params;
+if (!id) {
+  return Astro.redirect("/404");
+}
+
+const separationIds = await Astro.session?.get("separation-ids");
+if (!separationIds?.includes(id)) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title="result">
+  <h1>{id}</h1>
+  <Logs {id} client:load />
+</Layout>

@@ -11,6 +11,10 @@ if (
 ) {
   const result = await separate(Astro.request);
   if (result.success) {
+    Astro.session?.set("separation-ids", [
+      ...((await Astro.session?.get("separation-ids")) || []),
+      result.id,
+    ]);
     return Astro.redirect(`/${result.id}`, 303);
   } else {
     error = result.error;

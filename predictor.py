@@ -29,6 +29,7 @@ class Predictor(BasePredictor):
 
     def predict(  # pyright: ignore[reportIncompatibleMethodOverride]
         self,
+        id: str = Input(description="Unique identifier for the separation task"),
         audio_file: Path = Input(description="The audio file to separate"),
         model_name: str = Input(
             description="Model to use for separation",
@@ -47,7 +48,7 @@ class Predictor(BasePredictor):
         out_files: dict[str, Path] = {}
 
         for i, source_name in enumerate(model.sources):
-            out_file = out_dir / f"{source_name}.mp3"
+            out_file = out_dir / f"{id}-{source_name}.mp3"
             output = outputs[0, i].cpu()  # Remove batch dimension
             save_audio(output, out_file, sr)
             out_files[source_name] = out_file
