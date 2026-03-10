@@ -14,14 +14,6 @@ export default function ThemeToggle() {
     }
   }, []);
 
-  // return (
-  //   <Button variant="ghost" size="icon" onClick={toggleTheme}>
-  //     <IconSun size={18} className="dark:hidden" />
-  //     <IconMoon size={18} className="hidden dark:block" />
-  //     <span className="sr-only">Toggle theme</span>
-  //   </Button>
-  // );
-
   return (
     <Tooltip>
       <TooltipTrigger
