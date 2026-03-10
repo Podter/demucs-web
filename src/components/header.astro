@@ -1,21 +1,9 @@
 ---
-
+import ThemeToggle from "./theme-toggle.astro";
 ---
 
 <header
-  class="bg-background/50 sticky top-0 z-50 flex h-14 w-full border-b border-[#0a0a0a1a] backdrop-blur-md lg:px-4 dark:border-[#e5e5e526]"
+  class="fixed top-0 z-50 flex h-12 w-full items-center justify-end space-x-1 px-2"
 >
-  <div class="container flex w-full items-center justify-between">
-    <a
-      class="flex items-center space-x-2 transition-opacity hover:opacity-80"
-      href="/"
-    >
-      <!-- <AudioLines size={16} /> -->
-      <span class="font-medium">demucs-web</span>
-    </a>
-    <div class="flex items-center space-x-1">
-      <!-- <GitHubLink /> -->
-      <!-- <ThemeToggle /> -->
-    </div>
-  </div>
+  <ThemeToggle />
 </header>

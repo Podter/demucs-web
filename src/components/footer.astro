@@ -1,22 +1,24 @@
 ---
-
+import { IconBrandGithub, IconHeart } from "@tabler/icons-react";
 ---
 
-<footer
-  class="bg-background flex h-18 w-full border-t opacity-100 transition-transform duration-300 sm:h-14 lg:px-4"
->
+<footer class="fixed bottom-0 z-50 flex w-full justify-center">
   <div
-    class="container flex w-full flex-col items-center justify-between space-y-1 py-3.5 sm:flex-row"
+    class="container flex w-full flex-col items-center justify-between space-y-1 border-t py-3.5 sm:flex-row"
   >
     <a
-      class="text-muted-foreground flex items-center space-x-1.5 text-sm transition-opacity hover:opacity-80"
+      class="text-muted-foreground flex items-center space-x-1.5 text-sm font-medium transition-opacity hover:opacity-80"
       href="https://podter.me"
     >
-      <!-- <HeartIcon size={12} /> -->
-      <span class="font-medium">Made by Podter</span>
+      <IconHeart size={12} />
+      <span>Made by Podter</span>
     </a>
-    <p class="text-muted-foreground flex items-center text-sm font-medium">
-      Powered by Astro, React, Redis, and Demucs
-    </p>
+    <a
+      class="text-muted-foreground flex items-center space-x-1.5 text-sm font-medium transition-opacity hover:opacity-80"
+      href="https://github.com/Podter/compress.podter.me"
+    >
+      <IconBrandGithub className="inline" size={12} />
+      <span>Source code</span>
+    </a>
   </div>
 </footer>
