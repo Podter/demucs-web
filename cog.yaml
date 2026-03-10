@@ -1,0 +1,13 @@
+build:
+  gpu: true
+  python_version: "3.14"
+  python_packages:
+    - "demucs-infer[mp3,quantized]>=4.1.2"
+    - "torchcodec>=0.10.0"
+  system_packages:
+    - "ffmpeg"
+    - "build-essential"
+  run:
+    - python -c "from demucs_infer.pretrained import get_model; get_model('htdemucs'); get_model('htdemucs_ft'); get_model('htdemucs_6s')"
+
+predict: "predictor.py:Predictor"

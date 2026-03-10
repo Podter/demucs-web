@@ -10,7 +10,8 @@
     "format": "bun -b prettier --write .",
     "docker:up": "docker compose -f compose-dev.yml up -d",
     "docker:down": "docker compose -f compose-dev.yml down",
-    "docker:rm": "docker compose -f compose-dev.yml down -v --remove-orphans"
+    "docker:rm": "docker compose -f compose-dev.yml down -v --remove-orphans",
+    "cog:serve": "uv run -m cog.server.http --upload-url http://localhost:4321/api/webhooks/upload"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

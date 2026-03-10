@@ -1,0 +1,10 @@
+[project]
+name = "demucs-web"
+version = "0.1.0"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "cog>=0.16.12",
+    "demucs-infer[mp3,quantized]>=4.1.2",
+    "torchcodec>=0.10.0",
+]
