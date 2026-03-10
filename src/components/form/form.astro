@@ -1,0 +1,23 @@
+---
+import ChevronRight from "../icons/chevron-right";
+import { Button } from "../ui/button";
+import ModeSelect from "./mode-select";
+import SpeedSelect from "./speed-select";
+import Uploader from "./uploader";
+---
+
+<form
+  method="POST"
+  action="/"
+  enctype="multipart/form-data"
+  class="flex w-full flex-col items-center gap-6"
+>
+  <Uploader client:load />
+  <div class="flex w-full flex-col items-center gap-4">
+    <ModeSelect client:load />
+    <SpeedSelect client:load />
+  </div>
+  <Button className="group" type="submit">
+    Separate <ChevronRight />
+  </Button>
+</form>

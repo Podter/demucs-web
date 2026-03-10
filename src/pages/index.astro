@@ -1,9 +1,25 @@
 ---
+import Form from "~/components/form";
 import Layout from "~/layouts/layout.astro";
+import { separate } from "~/lib/separate/action";
+
+let error: string | null = null;
+
+if (
+  Astro.request.method === "POST" &&
+  Astro.request.headers.get("content-type")?.startsWith("multipart/form-data")
+) {
+  const result = await separate(Astro.request);
+  if (result.success) {
+    return Astro.redirect(`/${result.id}`, 303);
+  } else {
+    error = result.error;
+  }
+}
 ---
 
 <Layout title="demucs-web">
-  <main class="flex w-full flex-col items-center space-y-8 px-6 py-12 lg:pt-20">
+  <main class="flex w-full flex-col items-center gap-8 px-6 py-12 lg:pt-20">
     <h1 class="text-center text-5xl font-bold">
       Separate vocals from music tracks
     </h1>
@@ -11,6 +27,10 @@ import Layout from "~/layouts/layout.astro";
       Isolate vocals from music tracks with AI-powered tool. Upload your audio
       file and let the magic happen.
     </p>
-    <div class="flex w-full max-w-lg flex-col items-center"></div>
+    <Form />
+    <div class="flex w-full max-w-lg flex-col items-center">
+      <!-- Results -->
+      {error}
+    </div>
   </main>
 </Layout>
